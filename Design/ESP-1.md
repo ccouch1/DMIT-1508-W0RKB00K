@@ -4,7 +4,7 @@
 
 ### 0NF
 
-**Customer:** (<b class= "pk">CustomerNumber</b>, FirstName, LastName, Address, City, Province, PostalCode, HomePhone)
+**Customer:** (<span class="md"><b class= "pk">CustomerNumber</b>, FirstName, LastName, Address, City, Province, PostalCode, HomePhone</span>)
 
 ### 1NF-3NF
 
@@ -18,7 +18,7 @@
 
 ### 0NF 
 
-**Order:** (<b class="pk">OrderNumber</b>, Customer Number, FirstName, LastName, Address, City, Province, PostalCode, Phone, Date, <b class="rg">ItemNumber, Description, Quanitity, CurrentPrice, SellingPrice, Amount</b>, Subtotal, GST, Total)
+**Order:** (<span class="md"><b class="pk">OrderNumber</b>, Customer Number, FirstName, LastName, Address, City, Province, PostalCode, Phone, Date, <b class="rg">ItemNumber, Description, Quanitity, CurrentPrice, SellingPrice, Amount</b>, Subtotal, GST, Total</span>)
 
 ---
 > Your lab is to be submitted as a **Markdown** (`*.md`) file using the following legend. The recommended text editor for these files is [**Visual Studio Code**](https://code.visualstudio.com), as this editor allows you to preview your markdown document as HTML. ERDs can be created using [**Lucidchart**](https://www.lucidchart.com/) and exported as `*.png` files. Check with your instructor about getting a free *Lucidchart* account to use during this course.
