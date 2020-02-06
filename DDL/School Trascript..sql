@@ -115,7 +115,7 @@ ALTER TABLE Students
 	ADD PostalCode char(6) NULL 
 	-- Adding this as a Nullable columm, Becasue students already exist,
 	--and we don't have postal codes for those students.
-
+GO -- I have to break the above code as a Seperate Batch from teh Following Code because I if I don't it has not created the column yet
 
 -- 2) Make sure the PostalCode follows the Correct Pattern A#A#A#
 ALTER TABLE Students
