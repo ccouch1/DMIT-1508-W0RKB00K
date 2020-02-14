@@ -214,11 +214,11 @@ CREATE TABLE Sale
 		CONSTRAINT PK_Sale_SaleNumber
 			PRIMARY KEY
 		IDENTITY (3000, 1)
-							NOT NULL,
+									NOT NULL,
 	SaleDate	datetime
 			CONSTRAINT CK_Sale_SaleDate
 				CHECK (SaleDate < GETDATE ())
-							NOT NULL,
+									NOT NULL,
 	CustomerNumber	int
 		CONSTRAINT FK_Sale_CustomerNumber_Customer_CustomerNumber
 			FOREIGN KEY REFERENCES Customer(CustomerNumber)
@@ -232,5 +232,20 @@ CREATE TABLE Sale
 			CHECK (Total >= Subtotal)
 									NOT NULL,
 	GST			money				NOT NULL,
-	Total		money				NOT NULL,
+	Total		money				
+		CONSTRAINT	CK_SALE_Total
+			CHECK	(Total >=Subtotal) 
+									NOT NULL,
 )
+ALTER TABLE Customer
+	ADD WorkPhone char(10) NULL
+
+GO
+
+ALTER TABLE Customer
+	ADD Email	  char(30)	NULL
+ 
+ GO
+ ALTER TABLE Customer
+	ADD CONSTRAINT CK_Customer_Email
+		CHECK (Email LIKE '[a-z][a-z][a-z%')
