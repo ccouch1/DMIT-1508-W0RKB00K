@@ -145,7 +145,7 @@ WHERE   CourseID LIKE '____1%' -- four underscores, 1, %
 --11. Select the CourseID's and CourseNames where the CourseName contains the word 'programming'
 SELECT	CourseID, CourseName
 FROM	Course
-WHERE	CourseName LIKE 'programming'
+WHERE	CourseName ='programming'
 
 --12. Select all the ClubNames who start with N or C.
 
