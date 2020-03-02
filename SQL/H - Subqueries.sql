@@ -23,8 +23,29 @@ WHERE  PaymentTypeDescription = 'cash'
 
 --2. Select The Student ID's of all the students that are in the 'Association of Computing Machinery' club
 -- TODO: Student Answer Here
+SELECT	StudentID
+FROM	Activity
+WHERE	ClubId = 
+
+(SELECT ClubId
+ FROM	Club
+ WHERE ClubName='Association of Computing Machinery')
 
 -- 2.b. Select the names of all the students in the 'Association of Computing Machinery' club. Use a subquery for your answer. When you make your answer, ensure the outmost query only uses the Student table in its FROM clause.
+SELECT FirstName + ' ' + LastName AS 'Student'
+FROM Student
+WHERE StudentID IN 
+	(Select DISTINCT StudentID FROM Activity)
+
+-------------------------------------------------------------------------
+--V2--
+SELECT DISTINCT FirstName + ' ' + LastName AS 'Student'
+FROM Student
+	INNER JOIN Activity
+		ON Student.StudentID=Activity.StudentID
+-------------------------------------------------------------------------
+--V3--
+
 
 --3. Select All the staff full names for staff that have taught a course.
 SELECT FirstName + ' ' + LastName AS 'Staff'
@@ -41,6 +62,10 @@ FROM Staff
 
 --4. Select All the staff full names that taught DMIT172.
 -- TODO: Student Answer Here
+SELECT FirstName + ' ' + LastName AS 'StaffID'
+FROM   Staff
+INNER JOIN Registration
+	ON Staff.StaffID = Registration.StaffID
 
 
 --5. Select All the staff full names of staff that have never taught a course
