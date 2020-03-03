@@ -3,6 +3,8 @@
 USE [A01-School]
 GO
 
+
+
 -- Simple Select, without any other clauses
 SELECT  'Dan', 'Gilleland'
 

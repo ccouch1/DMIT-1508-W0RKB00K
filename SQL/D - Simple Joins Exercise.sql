@@ -1,6 +1,15 @@
 --Joins Exercise 1
 USE [A01-School]
 GO
+-- We Express relationships between tables in our design through FOREIGN KEY
+-- constraints. But those constraints simply check/restrict information that 
+-- is stored in the Foreign Key column. It doesn't actually/physically "connect"
+-- the tables- all the tables are "indpendent". That means that when we try
+-- to pull information from multiple related tables, we have to state the 
+-- connection between those tables. That is, we have to state how the tables
+-- JOIN together.
+
+
 
 --1.	Select Student full names and the course ID's they are registered in.
 SELECT  FirstName + ' ' + LastName AS 'Full Name',
