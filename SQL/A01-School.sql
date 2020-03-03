@@ -28,67 +28,12 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Position'
   DROP TABLE  Position
 go
 
--- 1. Select the average mark for each course. Display the CourseID and the average mark
---	Let's begin by exploring the Registration table to see the Data we are working with.
-
-SELECT CourseId, Mark
-FROM	Registration
-ORDER BY CourseID
--- Answer to  #1
-SELECT CourseId,					-- This column is a Non Aggregate
-		AVG(Mark) AS 'Average Mark'	-- This Column  preforms Aggregate (Produce 1 value)
--- When Performing an Aggregate Function is the SELECT Clause, if you have any other
--- Non-Aggregate columns in the SELECT clause then these must be listed in the GROUP BY clause
-
--- 2. How many payments were made for each payment type.
---	Display the Payment Type ID and the Count
-SELECT PaymentTypeID								--Non-Aggregate Column (btw, it's a FK)
-	COUNT(PaymentTypeID) AS 'Count of Pay Type'	--Aggregrate Column
-FROM Payment
-GROUP BY PaymentTypeID
--- Let's see what PaymentTypes are
-SELECT P.PaymentTypeID, P.PaymentTypeDescription
-FROM PaymentType AS P
---2a, Do the Same as above, but sort it from most frequent to the least frequent
-SELECT PaymentTypeID,
-	COUNT()
 CREATE TABLE  Position
 (
 	PositionID		tinyint identity(10,1)		Constraint PK_POS_PosID			Primary Key clustered,
 	PositionDescription	varchar(50)			Constraint NN_POS_PosDesc		not null
 )
 go
-
-
-
-
-
-
-
-
---6. 
-
---7. what is the highest, lowest and average payment amount for each payment type?
-SELECT MAX(Amount) AS 'Highest'
-       MIN(Amount) AS 'Lowest'
-       AVG(Amount) AS 'Average'
---      .PaymentTypeID
-FROM Payment
-GROUP BY PaymentTypeID
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 CREATE TABLE  Club
