@@ -12,6 +12,8 @@ GO -- Execute the code up to this point as a single batch
     syntax is used for hard-coded values.
     To insert multiple rows of hard-coded values, follow this pattern:
 
+    When inserting values, you can use subquries for individual values provided that the subquery returns a single value:
+
     INSERT INTO TableName(Comma, Separated, ListOf, ColumnNames)
     VALUES ('A', 'Value', 'Per', 'Column'),
            ('Another', 'Row', 'Of', 'Values')
@@ -48,7 +50,11 @@ FROM    Position
 WHERE   PositionID NOT IN (SELECT PositionID FROM Staff)
 --      Add Sheldon Murray as the new Assistant Dean.
 -- TODO: Student Answer Here....
-
+INSERT INTO Staff(FirstName, LastName, DateHired, PositionID)
+VALUES ('Sheldon', 'Murray', GETDATE(),
+        (SELECT PositionID
+         FROM   Position
+         WHERE  PositionDescription ='Assistant Dean'))
 -- 3. There are three additional clubs being started at the school:
 --      - START - Small Tech And Research Teams
 --      - CALM - Coping And Lifestyle Management
@@ -63,8 +69,13 @@ VALUES ('START', 'Small Tech And Research Teams'),
 -- 4. In your web browser, use https://randomuser.me/ to get information on three
 --    people to add as new students. Write separate insert statement for each new student.
 -- TODO: Student Answer Here....
-
-
+INSERT INTO Student (FirstName, LastName, Gender, StreetAddress, City, Province, Birthdate)
+VALUES              ('Maureen', 'Neal', 'F', '9040 W Dallas St', 'Edmonton', 'Ab', 'February 2 1970')
+INSERT INTO Student (FirstName, LastName, Gender, StreetAddress, City, Province, Birthdate)
+VALUES              ('Lesa', 'Fox', 'F', '873 Pecan Acres Ln', 'Edmonton', 'Ab', 'January 1 1970')
+INSERT INTO Student (FirstName, LastName, Gender, StreetAddress, City, Province, Birthdate)
+VALUES              ('Stacy', 'Perkins', 'F', '9127 Frances Ct', 'Edmonton', 'Ab', 'September 2 1990')
 -- 5. Enroll each of the students you've added into the DMIT777 course.
 --    Use 'Dan Gilleland' as the instructor. At this point, their marks should be NULL.
 -- TODO: Student Answer Here....
+INSERT INTO 
