@@ -179,19 +179,21 @@ AS
         -- Each variable can only hold a single value at a time
         DECLARE @MaxStudents    smallint
         DECLARE @CurrentCount   smallint
+
         DECLARE @CourseCost     money
         -- Assign a value to each of the local variables
         SELECT @MaxStudents = MaxStudents FROM Course WHERE CourseId = @CourseID
+		-- SET @MaxStudent
         SELECT @CurrentCount = COUNT (StudentID) FROM Registration WHERE CourseId = @CourseID AND Semester = @Semester
         SELECT @CourseCost = CourseCost FROM Course WHERE CourseId = @CourseID
 
-        IF @MaxStudents >= @currentcount 
+        IF @MaxStudents <= @currentcount 
         BEGIN
             RAISERROR('The course is already full', 16, 1)
         END
         ELSE
         BEGIN
-            BEGIN TRANSACTION
+            BEGIN TRANSACTION -- Changes will be temporary and can be rolled back
 
             INSERT INTO Registration (StudentID, CourseId, Semester)
             VALUES (@StudentID, @CourseID, @Semester)
@@ -222,6 +224,14 @@ AS
 RETURN
 
 GO
+-- Test RegisterStudent
+--SELECT * FROM Registration -- 2004J, 'DMIT152'
+--SELECT * FROM Student
+--SELECT * FROM Course WHERE CourseID - 'DMIT152'
+--------200122100--200312345--200322620--200494470--200494476--200495500--200522220--200578400--200645320
+EXEC RegisterStudent 199912010, 'DMIT152', '2004J'
+EXEC RegisterStudent 199966250, 'DMIT152', '2004J'
+EXEC RegisterStudent 199966250, 'DMIT152', '2004J'
 
 -- 4. Add a stored procedure called WitnessProtection that erases all existence of a student from the database. The stored procedure takes the StudentID, first and last names, gender, and birthdate as parameters. Ensure that the student exists in the database before removing them (all the parameter values must match).
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'WitnessProtection')
