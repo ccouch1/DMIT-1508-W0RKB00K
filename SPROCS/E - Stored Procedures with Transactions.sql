@@ -1,6 +1,17 @@
 --  Stored Procedures (Sprocs)
 -- Demonstrate using Transactions in a Stored Procedure
 
+-- What is a Transaction?
+-- A transaction is typicallly needed when we do two or more of an Insert/Update/Delete
+-- A transcation must succeed or fail as a group
+-- How do we start a Transaction?
+-- BEGIN TRANSACTION
+--	the BEGIN TRANSACTION only needs to be stated once
+-- TO MAKE A TRANSACTION SUCCEED WE USE THE STATEMENT COMMIT TRANSACTION
+--	the COMMIT TRANSACTION should only be used once
+-- TO MAKE A TRANSACTION FAIL WE USE THE STATEMENT ROLLBACK TRANSACTION
+--	We will have one ROLLBACK TRANSACTION for every INSERT/UPDATE/DELETE
+
 USE [A01-School]
 GO
 
@@ -18,6 +29,8 @@ GO
 
 
 -- 1. Add a stored procedure called TransferCourse that accepts a student ID, semester, and two course IDs: the one to move the student out of and the one to move the student in to.
+-- -Withdraw the student from one course -- UPDATE 
+-- -Add the Student to the other course	-- INSERT
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'TransferCourse')
     DROP PROCEDURE TransferCourse
 GO
@@ -34,6 +47,7 @@ AS
     BEGIN
         RAISERROR('All parameters are required (cannot be null)', 16, 1)
     END
+	-- We may be asked to do other validation 
     ELSE
     BEGIN
         -- Begin Transaction
@@ -45,7 +59,7 @@ AS
         WHERE  StudentID = @StudentID
           AND  CourseId = @LeaveCourseID
           AND  Semester = @Semester
-          AND  (WithdrawYN = 'N' OR WithdrawYN IS NULL)
+          AND  (WithdrawYN = 'N' OR WithdrawYN IS NULL) -- this could result in 0 rows affected
         --         Check for error/rowcount
         IF @@ERROR > 0 OR @@ROWCOUNT = 0
         BEGIN
@@ -66,7 +80,7 @@ AS
             BEGIN
                 --PRINT('RAISERROR + ROLLBACK')
                 RAISERROR('Unable to transfer student to new course', 16, 1)
-                ROLLBACK TRANSACTION
+                ROLLBACK TRANSACTION -- will undo the UPDATE action from Step 1
             END
             ELSE
             BEGIN
@@ -78,6 +92,18 @@ AS
 RETURN
 GO
 
+-- Test my stored Procedure
+-- sp_help TransferCourse
+-- SELECT * FROM Registration
+-- SELECT * FROM Course
+EXEC TransferCourse 199899200, '2004J', 'DMIT152', 'DMIT101' 
+EXEC TransferCourse 5, '2020J', 'DMIT152', 'DMIT101'
+EXEC TransferCourse 199899200, '2020J', 'DMIT152', 'DMIT101'
+EXEC TransferCourse 199899200, '2004J', 'DMIT152', 'DMIT999' 
+
+-- 1.B. create a stored procedure called DissolveClub that wil accept a club id as its parameter. Ensure that the club exists before attempting to dissolve the club you are to dissolve the club by first removing all the memebers of the club and then removing the club itself.
+--	-- Delete of rows in the activity table
+-- -- delete of row in the club table
 
 -- 2. Add a stored procedure called AdjustMarks that takes in a course ID. The procedure should adjust the marks of all students for that course by increasing the mark by 10%. Be sure that nobody gets a mark over 100%.
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = N'PROCEDURE' AND ROUTINE_NAME = 'AdjustMarks')
